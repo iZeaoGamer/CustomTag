@@ -16,16 +16,16 @@
         public function __construct(main $main)
         {
             $this->main = $main;
-            parent::__construct("tag", "称号", "/tag");
+            parent::__construct("tag", "title", "/tag");
             $this->setPermission("customtag.command.tag");
-            $this->setDescription("称号");
+            $this->setDescription("Tag command");
             $this->setUsage("/tag");
         }
 
         public function execute(CommandSender $sender, string $commandLabel, array $args): bool
         {
             if (!$sender instanceof Player) {
-                $sender->sendMessage(main::ERROR_TAG . "このコマンドはプレイヤーのみ実行できます");
+                $sender->sendMessage(main::ERROR_TAG . "This command can only be executed by the player");
                 return true;
             } else {
                 $player = $sender->getPlayer();
@@ -37,29 +37,29 @@
             $form_data["type"] = "form";
             $form_data["title"] = $this->main->getDescription()->getName();
             if (!$player->isOp()) {
-                $form_data["content"] = "行いたい動作を選択してください\n§l§f[ 一般モード ]";
+                $form_data["content"] = "Select the action you want to perform\n§l§a[General mode]";
                 $form_data["buttons"][] = array(
-                    "text" => "§l§a称号を購入する",
+                    "text" => "§l§aPurchase a title",
                 );
                 $form_data["buttons"][] = array(
-                    "text" => "§l§a称号を設定する",
+                    "text" => "§l§aSet the title",
                 );
             } else {
-                $form_data["content"] = "行いたい動作を選択してください\n§l§c[ 管理者モード ]";
+                $form_data["content"] = "Select the action you want to perform \ n§l§c[Administrator mode]";
                 $form_data["buttons"][] = array(
-                    "text" => "§l§a称号を購入する",
+                    "text" => "§l§aPurchase a title",
                 );
                 $form_data["buttons"][] = array(
-                    "text" => "§l§a称号を設定する",
+                    "text" => "§l§aSet the title",
                 );
                 $form_data["buttons"][] = array(
-                    "text" => "§l§6[OP]§a称号を追加する",
+                    "text" => "§l§6[OP]§aAdd a title",
                 );
                 $form_data["buttons"][] = array(
-                    "text" => "§l§6[OP]§a称号を削除する",
+                    "text" => "§l§6[OP]§aDelete the title",
                 );
                 $form_data["buttons"][] = array(
-                    "text" => "§l§6[OP]§a称号を§c強制的§aに設定する",
+                    "text" => "§l§6[OP]§aForced title setting",
                 );
             }
             $form->formData = json_encode($form_data);
