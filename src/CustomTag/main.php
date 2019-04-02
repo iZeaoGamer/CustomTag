@@ -15,7 +15,7 @@
 
         public function onEnable(): void
         {
-            $this->getLogger()->info("{$this->getDescription()->getName()} {$this->getDescription()->getVersion()} が読み込まれました");
+            $this->getLogger()->info("{$this->getDescription()->getName()} {$this->getDescription()->getVersion()} Has been read");
             $this->getServer()->getPluginManager()->registerEvents(new eventListener($this), $this);
             $this->getServer()->getCommandMap()->register("tag", new tagCommand($this));
             if (!file_exists($this->getDataFolder())) {
@@ -33,6 +33,6 @@
         public function onDisable(): void
         {
             $this->tag_data->save();
-            $this->getLogger()->info("{$this->getDescription()->getName()} {$this->getDescription()->getVersion()} が終了しました");
+            $this->getLogger()->info("{$this->getDescription()->getName()} {$this->getDescription()->getVersion()} Has finished");
         }
     }
