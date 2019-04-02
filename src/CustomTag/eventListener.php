@@ -55,8 +55,7 @@
                     }
                     switch ($response) {
                         case 0:
-                            $money_unit = EconomyAPI::getInstance()->getMonetaryUnit();
-                            $money = EconomyAPI::getInstance()->myMoney($player);
+                            $xp = $player->getXpLevel();
                             if (count($this->main->tag_data->get("shop_tag")) <= 0) {
                                 $player->sendMessage(main::ERROR_TAG . "現在購入できる称号はありません");
                                 return;
@@ -190,7 +189,7 @@
                     if ($response === null) {
                         return;
                     }
-                    $money = EconomyAPI::getInstance()->myMoney($player);
+                    $xp = $player->getXpLevel();
                     $shop_tag = $this->main->tag_data->get("shop_tag")[$response[1]];
                     $tag_name = $shop_tag["name"];
                     $tag_price = $shop_tag["price"];
