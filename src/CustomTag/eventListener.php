@@ -57,7 +57,7 @@
                         case 0:
                             $xp = $player->getXpLevel();
                             if (count($this->main->tag_data->get("shop_tag")) <= 0) {
-                                $player->sendMessage(main::ERROR_TAG . "現在購入できる称号はありません");
+                                $player->sendMessage(main::ERROR_TAG . "There is no title which can be purchased now");
                                 return;
                             }
                             $form = new ModalFormRequestPacket();
@@ -66,16 +66,16 @@
                             $form_data["title"] = $this->main->getDescription()->getName();
                             $form_data["content"][] = array(
                                 "type" => "label",
-                                "text" => "現在の所持金: {$money_unit}{$money}",
+                                "text" => "Present money: {$xp}",
                             );
                             $form_data["content"][] = array(
                                 "type" => "dropdown",
-                                "text" => "購入する称号",
+                                "text" => "Title to buy",
                             );
                             foreach ($this->main->tag_data->get("shop_tag") as $shop_tag) {
                                 $tag_name = $shop_tag["name"];
                                 $tag_price = $shop_tag["price"];
-                                $form_data["content"][1]["options"][] = "{$tag_name}§r§e(§l§b{$money_unit}{$tag_price}§r§e)";
+                                $form_data["content"][1]["options"][] = "{$tag_name}§r§e(§l§b{$xp}{$tag_price}§r§e)";
                             }
                             $form->formData = json_encode($form_data);
                             $player->sendDataPacket($form);
@@ -88,7 +88,7 @@
                                 $now = $player_tag[$name]["now"];
                             }
                             if (count($this->main->tag_data->get("player_tag")[$name]["tags"]) <= 0) {
-                                $player->sendMessage(main::ERROR_TAG . "現在設定できる称号はありません");
+                                $player->sendMessage(main::ERROR_TAG . "There is no title currently set");
                                 return;
                             }
                             $form = new ModalFormRequestPacket();
@@ -97,11 +97,11 @@
                             $form_data["title"] = $this->main->getDescription()->getName();
                             $form_data["content"][] = array(
                                 "type" => "label",
-                                "text" => "現在の称号: {$now}",
+                                "text" => "Current title: {$now}",
                             );
                             $form_data["content"][] = array(
                                 "type" => "dropdown",
-                                "text" => "設定する称号",
+                                "text" => "Title to set",
                             );
                             foreach ($this->main->tag_data->get("player_tag")[$name]["tags"] as $tag_name) {
                                 $form_data["content"][1]["options"][] = "{$tag_name}";
@@ -117,23 +117,23 @@
                                 $form_data["title"] = $this->main->getDescription()->getName();
                                 $form_data["content"][] = array(
                                     "type" => "input",
-                                    "text" => "追加する称号",
+                                    "text" => "Title to add",
                                 );
                                 $form_data["content"][] = array(
                                     "type" => "input",
-                                    "text" => "値段",
+                                    "text" => "price",
                                 );
                                 $form->formData = json_encode($form_data);
                                 $player->sendDataPacket($form);
                             } else {
-                                $player->sendMessage(main::ERROR_TAG . "不正なパケットを検出しました");
+                                $player->sendMessage(main::ERROR_TAG . "Invalid packet detected");
                             }
                             break;
                         case 3:
                             if ($player->isOp()) {
-                                $money_unit = EconomyAPI::getInstance()->getMonetaryUnit();
+                          
                                 if (count($this->main->tag_data->get("shop_tag")) <= 0) {
-                                    $player->sendMessage(main::ERROR_TAG . "現在削除できる称号はありません");
+                                    $player->sendMessage(main::ERROR_TAG . "There is no title which can be deleted now");
                                     return;
                                 }
                                 $form = new ModalFormRequestPacket();
@@ -142,23 +142,23 @@
                                 $form_data["title"] = $this->main->getDescription()->getName();
                                 $form_data["content"][] = array(
                                     "type" => "dropdown",
-                                    "text" => "削除する称号",
+                                    "text" => "Title to delete",
                                 );
                                 foreach ($this->main->tag_data->get("shop_tag") as $shop_tag) {
                                     $tag_name = $shop_tag["name"];
                                     $tag_price = $shop_tag["price"];
-                                    $form_data["content"][0]["options"][] = "{$tag_name}§r§e(§l§b{$money_unit}{$tag_price}§r§e)";
+                                    $form_data["content"][0]["options"][] = "{$tag_name}§r§e(§l§b{$tag_price}§r§e)";
                                 }
                                 $form->formData = json_encode($form_data);
                                 $player->sendDataPacket($form);
                             } else {
-                                $player->sendMessage(main::ERROR_TAG . "不正なパケットを検出しました");
+                                $player->sendMessage(main::ERROR_TAG . "Invalid packet detected");
                             }
                             break;
                         case 4:
                             if ($player->isOp()) {
                                 if (count($this->main->tag_data->get("player_tag")) <= 0) {
-                                    $player->sendMessage(main::ERROR_TAG . "現在設定できるプレイヤーはいません");
+                                    $player->sendMessage(main::ERROR_TAG . "There are no players currently set");
                                     return;
                                 }
                                 $form = new ModalFormRequestPacket();
@@ -167,7 +167,7 @@
                                 $form_data["title"] = $this->main->getDescription()->getName();
                                 $form_data["content"][] = array(
                                     "type" => "dropdown",
-                                    "text" => "設定するプレイヤー",
+                                    "text" => "Player to set",
                                 );
                                 $form_data["content"][] = array(
                                     "type" => "input",
@@ -179,7 +179,7 @@
                                 $form->formData = json_encode($form_data);
                                 $player->sendDataPacket($form);
                             } else {
-                                $player->sendMessage(main::ERROR_TAG . "不正なパケットを検出しました");
+                                $player->sendMessage(main::ERROR_TAG . "Invalid packet detected");
                             }
                             break;
 
@@ -193,18 +193,18 @@
                     $shop_tag = $this->main->tag_data->get("shop_tag")[$response[1]];
                     $tag_name = $shop_tag["name"];
                     $tag_price = $shop_tag["price"];
-                    if ($tag_price > $money) {
-                        $player->sendMessage(main::ERROR_TAG . "所持金が不足しています");
+                    if ($tag_price > $xp) {
+                        $player->sendMessage(main::ERROR_TAG . "There is insufficient xp");
                         return;
                     }
-                    EconomyAPI::getInstance()->reduceMoney($player, $tag_price);
+                    $player->setXpLevel($player->getXpLevel() - $tag_price);
                     $player_tag = $this->main->tag_data->get("player_tag");
                     $player_tag[$name]["tags"][] = $tag_name;
                     $player_tag[$name]["now"] = $tag_name;
                     $this->main->tag_data->set("player_tag", $player_tag);
                     $player->setNameTag("§b[§r{$tag_name}§r§b] §r{$name}");
                     $player->setDisplayName("§b[§r{$tag_name}§r§b] §r{$name}");
-                    $player->sendMessage(main::SUCCESS_TAG . "称号を購入しました");
+                    $player->sendMessage(main::SUCCESS_TAG . "I bought a title");
                     break;
                 case $this->main->formId[2]:
                     if ($response === null) {
@@ -216,7 +216,7 @@
                     $this->main->tag_data->set("player_tag", $player_tag);
                     $player->setNameTag("§b[§r{$tag_name}§r§b] §r{$name}");
                     $player->setDisplayName("§b[§r{$tag_name}§r§b] §r{$name}");
-                    $player->sendMessage(main::SUCCESS_TAG . "称号を設定しました");
+                    $player->sendMessage(main::SUCCESS_TAG . "I set the title");
                     break;
                 case $this->main->formId[3]:
                     if ($response === null) {
@@ -224,11 +224,11 @@
                     }
                     if ($player->isOp()) {
                         if ($response[0] === "") {
-                            $player->sendMessage(main::ERROR_TAG . "称号が入力されていません");
+                            $player->sendMessage(main::ERROR_TAG . "Title has not been entered");
                             return;
                         }
                         if (!is_numeric($response[1])) {
-                            $player->sendMessage(main::ERROR_TAG . "値段が数字ではありません");
+                            $player->sendMessage(main::ERROR_TAG . "The price is not a number");
                             return;
                         }
                         $shop_tag = $this->main->tag_data->get("shop_tag");
@@ -237,9 +237,9 @@
                             "price" => $response[1],
                         );
                         $this->main->tag_data->set("shop_tag", $shop_tag);
-                        $player->sendMessage(main::SUCCESS_TAG . "称号を登録しました");
+                        $player->sendMessage(main::SUCCESS_TAG . "I registered the title");
                     } else {
-                        $player->sendMessage(main::ERROR_TAG . "不正なパケットを検出しました");
+                        $player->sendMessage(main::ERROR_TAG . "Invalid packet detected");
                     }
                     break;
                 case $this->main->formId[4]:
@@ -254,9 +254,9 @@
                         $shop_tag = array_merge($shop_tag);
                         //print_r($shop_tag);
                         $this->main->tag_data->set("shop_tag", $shop_tag);
-                        $player->sendMessage(main::SUCCESS_TAG . "称号を削除しました");
+                        $player->sendMessage(main::SUCCESS_TAG . "I deleted the title");
                     } else {
-                        $player->sendMessage(main::ERROR_TAG . "不正なパケットを検出しました");
+                        $player->sendMessage(main::ERROR_TAG . "Invalid packet detected");
                     }
                     break;
                 case $this->main->formId[5]:
@@ -265,7 +265,7 @@
                     }
                     if ($player->isOp()) {
                         if ($response[1] === "") {
-                            $player->sendMessage(main::ERROR_TAG . "称号が入力されていません");
+                            $player->sendMessage(main::ERROR_TAG . "Title has not been entered");
                             return;
                         }
                         $player_tag = $this->main->tag_data->get("player_tag");
@@ -274,9 +274,9 @@
                         $this->main->tag_data->set("player_tag", $player_tag);
                         $player->setNameTag("§b[§r{$response[1]}§r§b] §r{$name}");
                         $player->setDisplayName("§b[§r{$response[1]}§r§b] §r{$name}");
-                        $player->sendMessage(main::SUCCESS_TAG . "称号を設定しました");
+                        $player->sendMessage(main::SUCCESS_TAG . "I set the title");
                     } else {
-                        $player->sendMessage(main::ERROR_TAG . "不正なパケットを検出しました");
+                        $player->sendMessage(main::ERROR_TAG . "Invalid packet detected");
                     }
                     break;
             }
